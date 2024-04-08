@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 
 namespace DevIO.Api.Configuration
 {
@@ -24,6 +25,14 @@ namespace DevIO.Api.Configuration
                         .AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader());
+
+                options.AddPolicy("Production", builder =>
+                    builder
+                    .WithMethods("GET") // metodos que serão aceitos
+                    .WithOrigins("http://meudominio.com.br")
+                    .SetIsOriginAllowedToAllowWildcardSubdomains()
+                    .WithHeaders(HeaderNames.ContentType, "x-custom-header")
+                    .AllowAnyHeader());
             });
 
             return services;
@@ -38,7 +47,7 @@ namespace DevIO.Api.Configuration
             }
             else
             {
-                app.UseCors("Development"); // Usar apenas nas demos => Configuração Ideal: Production
+                app.UseCors("Production"); // Usar apenas nas demos => Configuração Ideal: Production
                 app.UseHsts();
             }
 

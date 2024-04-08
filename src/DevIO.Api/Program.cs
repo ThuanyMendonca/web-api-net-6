@@ -23,12 +23,9 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 builder.Services.ResolveDependencies();
 builder.Services.AddSwaggerGen();
 
-
-
 var app = builder.Build();
 
 app.UseApiConfig(app.Environment);
-//app.UseCors("Development");
 
 app.MapControllers();
 

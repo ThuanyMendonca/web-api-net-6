@@ -5,6 +5,7 @@ using DevIO.Api.Controllers;
 using DevIO.Api.Extensions;
 using DevIO.Api.ViewModels;
 using DevIO.Business.Intefaces;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -25,6 +26,7 @@ namespace DevIO.Api.Controllers
             _appSettings = appSettings.Value;
         }
 
+        // se o cors não estiver ativado, consegue usar especifico [EnableCors("Development")]
         [HttpPost("nova-conta")]
         public async Task<ActionResult> Registrar(RegisterUserViewModel registerUser)
         {

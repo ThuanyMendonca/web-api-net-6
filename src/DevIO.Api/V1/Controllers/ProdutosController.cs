@@ -1,13 +1,16 @@
-﻿using AutoMapper;
+﻿using Asp.Versioning;
+using AutoMapper;
+using DevIO.Api.Controllers;
 using DevIO.Api.Extensions;
 using DevIO.Api.ViewModels;
 using DevIO.Business.Intefaces;
 using DevIO.Business.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DevIO.Api.Controllers
+namespace DevIO.Api.V1.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class ProdutosController : MainController
     {
         private readonly IProdutoRepository _produtoRepository;
@@ -32,7 +35,7 @@ namespace DevIO.Api.Controllers
         {
             var produtoViewModel = await ObterProduto(id);
 
-            if(produtoViewModel == null) 
+            if (produtoViewModel == null)
             {
                 return NotFound();
             }
@@ -61,8 +64,8 @@ namespace DevIO.Api.Controllers
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             var imagemNome = Guid.NewGuid() + "_" + produtoViewModel.Imagem;
-            
-            if(!UploadArquivo(produtoViewModel.ImagemUpload, imagemNome))
+
+            if (!UploadArquivo(produtoViewModel.ImagemUpload, imagemNome))
             {
                 return CustomResponse();
             }
@@ -94,7 +97,7 @@ namespace DevIO.Api.Controllers
         }
 
         private bool UploadArquivo(string arquivo, string imgNome)
-        {      
+        {
             if (string.IsNullOrEmpty(arquivo))
             {
                 //Pode adicionar o erro na ModelState ou no notificador
@@ -145,7 +148,7 @@ namespace DevIO.Api.Controllers
         private async Task<ProdutoViewModel> ObterProduto(Guid id)
         {
             return _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterProdutoFornecedor(id));
-            
+
         }
     }
 }

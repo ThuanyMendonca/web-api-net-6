@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using Asp.Versioning;
+using AutoMapper;
+using DevIO.Api.Controllers;
 using DevIO.Api.ViewModels;
 using DevIO.Business.Intefaces;
 using DevIO.Business.Models;
@@ -6,10 +8,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static DevIO.Api.Extensions.CustomAuthorization;
 
-namespace DevIO.Api.Controllers
+namespace DevIO.Api.V1.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class FornecedoresController : MainController
     {
         private readonly IFornecedorRepository _fornecedorRepository;
@@ -29,8 +32,8 @@ namespace DevIO.Api.Controllers
         [HttpGet]
         public async Task<IEnumerable<FornecedorViewModel>> ObterTodos()
         {
-            var fornecedorViewModel =_mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.ObterTodos());
-            
+            var fornecedorViewModel = _mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.ObterTodos());
+
             return fornecedorViewModel;
         }
 
@@ -40,8 +43,8 @@ namespace DevIO.Api.Controllers
         {
             var fornecedorViewModel = await ObterFornecedorProdutosEndereco(id);
 
-            if (fornecedorViewModel == null) return NotFound();    
-            
+            if (fornecedorViewModel == null) return NotFound();
+
             return CustomResponse(fornecedorViewModel);
         }
 
@@ -55,7 +58,7 @@ namespace DevIO.Api.Controllers
             }
 
             if (!ModelState.IsValid) return CustomResponse(ModelState);
-            
+
             await _fornecedorService.Adicionar(_mapper.Map<Fornecedor>(fornecedorViewModel));
 
             return CustomResponse(fornecedorViewModel);
@@ -71,7 +74,7 @@ namespace DevIO.Api.Controllers
                 //return CustomResponse(fornecedorViewModel);
                 return BadRequest();
             }
-            
+
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             await _fornecedorService.Atualizar(_mapper.Map<Fornecedor>(fornecedorViewModel));

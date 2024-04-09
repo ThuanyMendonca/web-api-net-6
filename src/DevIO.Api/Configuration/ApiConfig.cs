@@ -68,7 +68,7 @@ namespace DevIO.Api.Configuration
             app.UseRouting();
 
             app.UseAuthentication();
-            app.UseAuthorization();
+            app.UseAuthorization();            
 
             return app;
         }

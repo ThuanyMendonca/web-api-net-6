@@ -14,7 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace DevIO.Api.V1.Controllers
 {
-    [ApiVersion("1.0", Deprecated = true)]
+    [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}")]
     public class AuthController : MainController
     {

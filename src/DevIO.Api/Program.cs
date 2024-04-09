@@ -1,3 +1,4 @@
+using Asp.Versioning.ApiExplorer;
 using DevIO.Api.Configuration;
 using DevIO.Data.Context;
 using Microsoft.AspNetCore.Mvc;
@@ -12,8 +13,13 @@ builder.Services.AddDbContext<MeuDbContext>(options =>
 });
 
 builder.Services.AddIdentityConfiguration(builder.Configuration);
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddApiConfig();
+
+builder.Services.AddSwaggerConfig();
+
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.SuppressModelStateInvalidFilter = true;
@@ -21,11 +27,13 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 });
 
 builder.Services.ResolveDependencies();
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
 app.UseApiConfig(app.Environment);
+
+app.UseSwaggerConfig(apiVersionDescriptionProvider);
 
 app.MapControllers();
 

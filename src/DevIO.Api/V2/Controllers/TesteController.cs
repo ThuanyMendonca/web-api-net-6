@@ -18,6 +18,9 @@ namespace DevIO.Api.V2.Controllers
         [HttpGet]
         public string Valor()
         {
+            // testando o exception middleware
+            //throw new Exception("Erro v2");
+
             return "Sou a V2";
         }
     }

@@ -26,6 +26,8 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 
 });
 
+builder.Services.AddLoggingConfiguration();
+
 builder.Services.ResolveDependencies();
 
 var app = builder.Build();
@@ -36,5 +38,7 @@ app.UseApiConfig(app.Environment);
 app.UseSwaggerConfig(apiVersionDescriptionProvider);
 
 app.MapControllers();
+
+app.UseLoggingConfiguration();
 
 app.Run();

@@ -9,9 +9,10 @@ namespace DevIO.Api.V2.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class TesteController : MainController
     {
-        public TesteController(INotificador notificador, IUser appUser) : base(notificador, appUser)
+        private readonly ILogger _logger;
+        public TesteController(INotificador notificador, IUser appUser, ILogger<TesteController> logger) : base(notificador, appUser)
         {
-
+            _logger = logger;
         }
 
         [HttpGet]

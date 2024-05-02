@@ -26,7 +26,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 
 });
 
-builder.Services.AddLoggingConfiguration();
+builder.Services.AddLoggingConfiguration(builder.Configuration);
 
 builder.Services.ResolveDependencies();
 

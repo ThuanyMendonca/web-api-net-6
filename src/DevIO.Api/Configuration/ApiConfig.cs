@@ -42,8 +42,8 @@ namespace DevIO.Api.Configuration
 
                 options.AddPolicy("Production", builder =>
                     builder
-                    .WithMethods("GET") // metodos que serão aceitos
-                    .WithOrigins("http://meudominio.com.br")
+                    //.WithMethods("GET") // metodos que serão aceitos
+                    .WithOrigins("https://meuteste.azurewebsites.net")
                     .SetIsOriginAllowedToAllowWildcardSubdomains()
                     .WithHeaders(HeaderNames.ContentType, "x-custom-header")
                     .AllowAnyHeader());
@@ -54,6 +54,7 @@ namespace DevIO.Api.Configuration
 
         public static IApplicationBuilder UseApiConfig(this IApplicationBuilder app, IWebHostEnvironment env)
         {
+            Console.WriteLine(env.EnvironmentName);
             if (env.IsDevelopment())
             {
                 app.UseCors("Development");
